@@ -1,0 +1,120 @@
+<title>TO DO LIST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        form input[type="text"] {
+            flex-grow: 1;
+            padding: 8px;
+        }
+
+        form input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        div {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        div:after {
+            content: "";
+            display: block;
+            height: 1px;
+            background-color: #ccc;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        a.update-button,
+        a.delete-button {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        a.update-button:hover {
+            background-color: #0e7bcd;
+            color: #fff;
+        }
+
+        a.delete-button:hover {
+            background-color: #d32f2f;
+            color: #fff;
+        }
+
+        span {
+            color: #333;
+        }
+
+        strike {
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3>TO DO LIST</h3>
+
+    <form method="POST" action="/">
+        {% csrf_token %}
+        {{form.title}}
+        <input type="submit" value="Create Task">
+    </form>
+
+    {% for task in mytasks %}
+        <div>
+            <a href="{% url 'updatetask' task.id %}" class="update-button">Update</a>
+            <a href="{% url 'deletetask' task.id %}" class="delete-button">Delete</a>
+
+            {% if task.complete == True %}
+            <strike>{{task}}</strike>
+            {% else %}
+            <span>{{task}}</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
